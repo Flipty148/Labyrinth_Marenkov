@@ -47,32 +47,36 @@ public class LabyrinthGenerator
     {
         curCell.IsVisited = true; //—читать текущую вершину посещЄнной
 
-        List<LabyrinthCell> unvisited = new List<LabyrinthCell>(); //—писок непосещЄнных соседних вершин
+        List<LabyrinthCell> unvisited = GetUnvisited(labyrinth,curCell); //—писок непосещЄнных соседних вершин
 
+        while (unvisited.Count>0)
+        { //ѕока есть непосещенные соседние вершины
+            LabyrinthCell nextCell = unvisited[Random.Range(0, unvisited.Count)]; //—лучайн€€ соседн€€ непосещЄнна€ вершина
+            RemoveWall(curCell, nextCell); //”далить стену между текущей и следующей €чейками
+            RemoveWallsBacktracking(labyrinth, nextCell); //”далить стены
+            unvisited = GetUnvisited(labyrinth, curCell); //ќбновит список неосещЄнных соседних вершин
+        }
+        
+    }
+
+    private List<LabyrinthCell> GetUnvisited(LabyrinthCell[,] labyrinth, LabyrinthCell curCell)
+    {
+
+        List<LabyrinthCell> unvisited = new List<LabyrinthCell>(); //—писок непосещЄнных соседних вершин
         int x = curCell.X; //√оризонтальна€ координата текущей вершины
         int y = curCell.Y; //¬ертикальна€ координата текущей вершины
 
         //ƒобавить все непосещЄнные соседние вершины в соответствующий список...
         if (x > 0 && !labyrinth[x - 1, y].IsVisited)
             unvisited.Add(labyrinth[x - 1, y]); //...если не посещена €чейка слева от текущей 
-        if (x < Width - 2 && !labyrinth[x + 1, y].IsVisited)
+        if (x < Width - 1 && !labyrinth[x + 1, y].IsVisited)
             unvisited.Add(labyrinth[x + 1, y]); //...если не посещена €чейка справа от текущей 
         if (y > 0 && !labyrinth[x, y - 1].IsVisited)
             unvisited.Add(labyrinth[x, y - 1]); //...если не посещена €чейка сверху от текущей 
-        if (y < Height - 2 && !labyrinth[x, y + 1].IsVisited)
+        if (y < Height - 1 && !labyrinth[x, y + 1].IsVisited)
             unvisited.Add(labyrinth[x, y + 1]); //...если не посещена €чейка снизу от текущей 
-
-        if (unvisited.Count > 0)
-        { //≈сли есть непосещенные соседи
-            for (int i=0; i < unvisited.Count - 1; i++)
-            {
-                LabyrinthCell nextCell = unvisited[Random.Range(0, unvisited.Count)];
-                RemoveWall(curCell, nextCell);
-                RemoveWallsBacktracking(labyrinth, nextCell);
-            }
-        }
+        return unvisited;
     }
-
     private void RemoveWall(LabyrinthCell first, LabyrinthCell second)
     {
         if (first.X == second.X)
