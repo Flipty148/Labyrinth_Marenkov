@@ -12,16 +12,22 @@ public class LabyrinthCell
     public bool BottomWall = true; //Флаг, показывающий существование нижней стены
 
     public bool IsVisited = false; //Флаг, показывающий была ли посещена ячейка
+
+    public int DystanceStart; //Расстояние до точки старта
 }
 public class LabyrinthGenerator
 {
     public int Width { get; private set; } //Ширина лабиринта
     public int Height { get; private set; } //Высота лабиринта
+    public int XStart { get; private set; } //Горизонтальная координата стартовой точки
+    public int YStart { get; private set; } //Вертикальная координата стартовой точки
 
-    public LabyrinthGenerator(int width, int height)
+    public LabyrinthGenerator(int width, int height, int xStart = 0, int yStart = 0)
     {
         Width = width;
         Height = height;
+        XStart = xStart;
+        YStart = yStart;
     }
 
 
@@ -38,14 +44,18 @@ public class LabyrinthGenerator
             }
         }
 
-        RemoveWallsBacktracking(labyrinthCells, labyrinthCells[0, 0]); //Удалить стены
+        LabyrinthCell startCell = labyrinthCells[XStart, YStart]; //Ячейка старта
 
+        RemoveWallsBacktracking(labyrinthCells, startCell); //Удалить стены
+
+        RemoveExitWall(labyrinthCells); //Удалить стену выхода
         return labyrinthCells; //Вернуть ячейки лабиринта
     }
 
-    private void RemoveWallsBacktracking(LabyrinthCell[,] labyrinth, LabyrinthCell curCell)
+    private void RemoveWallsBacktracking(LabyrinthCell[,] labyrinth, LabyrinthCell curCell, int distanceStart = 0)
     {
         curCell.IsVisited = true; //Считать текущую вершину посещённой
+        curCell.DystanceStart = distanceStart; //Установить расстояние до стартовой позиции
 
         List<LabyrinthCell> unvisited = GetUnvisited(labyrinth,curCell); //Список непосещённых соседних вершин
 
@@ -53,7 +63,7 @@ public class LabyrinthGenerator
         { //Пока есть непосещенные соседние вершины
             LabyrinthCell nextCell = unvisited[Random.Range(0, unvisited.Count)]; //Случайняя соседняя непосещённая вершина
             RemoveWall(curCell, nextCell); //Удалить стену между текущей и следующей ячейками
-            RemoveWallsBacktracking(labyrinth, nextCell); //Удалить стены
+            RemoveWallsBacktracking(labyrinth, nextCell, distanceStart++); //Удалить стены
             unvisited = GetUnvisited(labyrinth, curCell); //Обновит список неосещённых соседних вершин
         }
         
@@ -105,5 +115,37 @@ public class LabyrinthGenerator
                 second.RightWall = false; //Убрать правую стену второй ячейки
             }
         }
+    }
+
+    private void RemoveExitWall(LabyrinthCell[,] labyrinth)
+    {
+        LabyrinthCell farCell = labyrinth[XStart, YStart]; //самая дальняя ячейка от стартовой
+
+        //Найти самую дальнюю ячейку по периметру от стартовой ячейки 
+        for (int x = 0; x < Width; x++)
+        {
+            if (labyrinth[x, 0].DystanceStart > farCell.DystanceStart)
+                farCell = labyrinth[x, 0];
+            if (labyrinth[x, Height - 1].DystanceStart > farCell.DystanceStart)
+                farCell = labyrinth[x, Height - 1];
+        }
+
+        for (int y = 0; y < Height; y++)
+        {
+            if (labyrinth[0, y].DystanceStart > farCell.DystanceStart)
+                farCell = labyrinth[0, y];
+            if (labyrinth[Width - 1, y].DystanceStart > farCell.DystanceStart)
+                farCell = labyrinth[Width - 1, y];
+        }
+
+        // Удалить соответствующую стену
+        if (farCell.X == 0)
+            farCell.LeftWall = false;
+        else if (farCell.X == Width - 1)
+            farCell.RightWall = false;
+        else if (farCell.Y == 0)
+            farCell.BottomWall = false;
+        else if (farCell.Y == Height - 1)
+            farCell.UpperWall = false;
     }
 }
