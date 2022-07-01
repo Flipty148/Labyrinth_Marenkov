@@ -63,7 +63,7 @@ public class LabyrinthGenerator
         { //ѕока есть непосещенные соседние вершины
             LabyrinthCell nextCell = unvisited[Random.Range(0, unvisited.Count)]; //—лучайн€€ соседн€€ непосещЄнна€ вершина
             RemoveWall(curCell, nextCell); //”далить стену между текущей и следующей €чейками
-            RemoveWallsBacktracking(labyrinth, nextCell, distanceStart++); //”далить стены
+            RemoveWallsBacktracking(labyrinth, nextCell, distanceStart+1); //”далить стены
             unvisited = GetUnvisited(labyrinth, curCell); //ќбновит список неосещЄнных соседних вершин
         }
         
