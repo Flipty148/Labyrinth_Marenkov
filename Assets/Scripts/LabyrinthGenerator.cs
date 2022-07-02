@@ -14,6 +14,17 @@ public class LabyrinthCell
     public bool IsVisited = false; //Флаг, показывающий была ли посещена ячейка
 
     public int DystanceStart; //Расстояние до точки старта
+
+    public enum ExitDirection
+    { //Направление выхода
+        None,
+        Left,
+        Right,
+        Upper,
+        Bottom
+    }
+
+    public ExitDirection exitDirection = ExitDirection.None; //Направление выхода в ячейкей
 }
 public class LabyrinthGenerator
 {
@@ -48,7 +59,7 @@ public class LabyrinthGenerator
 
         RemoveWallsBacktracking(labyrinthCells, startCell); //Удалить стены
 
-        RemoveExitWall(labyrinthCells); //Удалить стену выхода
+        MarkExitWall(labyrinthCells); //Отметить стену выхода
         return labyrinthCells; //Вернуть ячейки лабиринта
     }
 
@@ -117,7 +128,7 @@ public class LabyrinthGenerator
         }
     }
 
-    private void RemoveExitWall(LabyrinthCell[,] labyrinth)
+    private void MarkExitWall(LabyrinthCell[,] labyrinth)
     {
         LabyrinthCell farCell = labyrinth[XStart, YStart]; //самая дальняя ячейка от стартовой
 
@@ -138,14 +149,14 @@ public class LabyrinthGenerator
                 farCell = labyrinth[Width - 1, y];
         }
 
-        // Удалить соответствующую стену
+        // Отметить соответствующую стену
         if (farCell.X == 0)
-            farCell.LeftWall = false;
+            farCell.exitDirection = LabyrinthCell.ExitDirection.Left;
         else if (farCell.X == Width - 1)
-            farCell.RightWall = false;
+            farCell.exitDirection = LabyrinthCell.ExitDirection.Right;
         else if (farCell.Y == 0)
-            farCell.BottomWall = false;
+            farCell.exitDirection = LabyrinthCell.ExitDirection.Bottom;
         else if (farCell.Y == Height - 1)
-            farCell.UpperWall = false;
+            farCell.exitDirection = LabyrinthCell.ExitDirection.Upper;
     }
 }
