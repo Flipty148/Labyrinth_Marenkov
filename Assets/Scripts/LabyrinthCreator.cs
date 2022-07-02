@@ -32,7 +32,10 @@ public class LabyrinthCreator : MonoBehaviour
                 GameObject curObject = Instantiate(Cell, new Vector2(x*sizeX, y*sizeY), Quaternion.identity); //—оздать €чейку
                 curObject.transform.SetParent(Cells.transform); //ƒобавить текущую €чейку ко всем €чейкам
                 Cell cell = curObject.GetComponent<Cell>();
-                cell.SetWallsActive(labyrinth[x, y].LeftWall, labyrinth[x, y].RightWall, labyrinth[x, y].UpperWall, labyrinth[x, y].BottomWall); //»зменить видимость стен в €чейке
+                LabyrinthCell curCell = labyrinth[x, y];
+                cell.SetWallsActive(curCell.LeftWall, curCell.RightWall, curCell.UpperWall, curCell.BottomWall); //»зменить видимость стен в €чейке
+                if (curCell.exitDirection != ExitDirection.None)
+                    cell.SetExitWall(curCell.exitDirection);
             }
         }
     }

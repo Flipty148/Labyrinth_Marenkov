@@ -1,6 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum ExitDirection
+{ //Направление выхода
+    None,
+    Left,
+    Right,
+    Upper,
+    Bottom
+}
 public class LabyrinthCell
 {
     public int X; //Горизонтальная координата ячейки лабиринта
@@ -14,15 +22,6 @@ public class LabyrinthCell
     public bool IsVisited = false; //Флаг, показывающий была ли посещена ячейка
 
     public int DystanceStart; //Расстояние до точки старта
-
-    public enum ExitDirection
-    { //Направление выхода
-        None,
-        Left,
-        Right,
-        Upper,
-        Bottom
-    }
 
     public ExitDirection exitDirection = ExitDirection.None; //Направление выхода в ячейкей
 }
@@ -151,12 +150,12 @@ public class LabyrinthGenerator
 
         // Отметить соответствующую стену
         if (farCell.X == 0)
-            farCell.exitDirection = LabyrinthCell.ExitDirection.Left;
+            farCell.exitDirection = ExitDirection.Left;
         else if (farCell.X == Width - 1)
-            farCell.exitDirection = LabyrinthCell.ExitDirection.Right;
+            farCell.exitDirection = ExitDirection.Right;
         else if (farCell.Y == 0)
-            farCell.exitDirection = LabyrinthCell.ExitDirection.Bottom;
+            farCell.exitDirection = ExitDirection.Bottom;
         else if (farCell.Y == Height - 1)
-            farCell.exitDirection = LabyrinthCell.ExitDirection.Upper;
+            farCell.exitDirection = ExitDirection.Upper;
     }
 }

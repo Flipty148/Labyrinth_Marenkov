@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using UnityEditor;
 public class Cell : MonoBehaviour
 {
     [SerializeField] private GameObject LeftWall;
@@ -13,5 +13,37 @@ public class Cell : MonoBehaviour
         RightWall.SetActive(RightActive);
         UpperWall.SetActive(UpperActive);
         BottomWall.SetActive(BottomActive);
+    }
+
+    public void SetExitWall(ExitDirection exitDirection)
+    {
+        GameObject curWall = null; //Стена
+        switch (exitDirection)
+        {
+            case ExitDirection.None:
+                break;
+            case ExitDirection.Left:
+                curWall = LeftWall;
+                break;
+            case ExitDirection.Right:
+                curWall = RightWall;
+                break;
+            case ExitDirection.Upper:
+                curWall = UpperWall;
+                break;
+            case ExitDirection.Bottom:
+                curWall = BottomWall;
+                break;
+        }
+
+        if (curWall != null)
+        {
+            curWall.GetComponent<LineRenderer>().enabled = false; //Отключить видимость
+            curWall.GetComponent<EdgeCollider2D>().isTrigger = true; //Сделать триггером
+            curWall.AddComponent<ExitTrigger>(); //Добавление обработчика триггера
+            curWall.GetComponent<ExitTrigger>().player = GameObject.FindGameObjectWithTag("Player"); //Передача параметра обработчику
+        }
+        else
+            return;
     }
 }
