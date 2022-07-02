@@ -7,6 +7,7 @@ public class LabyrinthCreator : MonoBehaviour
     [SerializeField] private GameObject Cell; //Ячейка лабиринта
     [SerializeField] private int Width = 5; //Ширина лабиринта
     [SerializeField] private int Height = 5; //Высота лабиринта
+    [SerializeField] private Camera Camera;
     private float sizeX; //Размер ячейки по X
     private float sizeY; //Размер ячейки по Y
 
@@ -38,5 +39,16 @@ public class LabyrinthCreator : MonoBehaviour
                     cell.SetExitWall(curCell.exitDirection);
             }
         }
+
+        ChangeCameraBounds();
+    }
+
+    private void ChangeCameraBounds()
+    {
+        float left = 0;
+        float right = Width * sizeX;
+        float up = Height * sizeY;
+        float bottom = 0;
+        Camera.GetComponent<CameraController>().SetCameraBounds(left, right, up, bottom);
     }
 }
