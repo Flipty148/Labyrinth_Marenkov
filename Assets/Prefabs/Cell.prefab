@@ -84,8 +84,8 @@ LineRenderer:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0.011177063
-        value: 0.080788255
+        time: 0
+        value: 0.16902983
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -238,8 +238,8 @@ LineRenderer:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0.011177063
-        value: 0.080788255
+        time: 0
+        value: 0.16902983
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -392,8 +392,8 @@ LineRenderer:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0.011177063
-        value: 0.080788255
+        time: 0
+        value: 0.16902983
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -599,8 +599,8 @@ LineRenderer:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0.011177063
-        value: 0.080788255
+        time: 0
+        value: 0.16902983
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -680,6 +680,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: LabyrinthBackground
       objectReference: {fileID: 0}
+    - target: {fileID: 3011931894468510840, guid: 606701d65fe75864cb293ea8176570f1, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7617506601850112029, guid: 606701d65fe75864cb293ea8176570f1, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -698,11 +702,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7617506601850112029, guid: 606701d65fe75864cb293ea8176570f1, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.5
+      value: 0.4902
       objectReference: {fileID: 0}
     - target: {fileID: 7617506601850112029, guid: 606701d65fe75864cb293ea8176570f1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.5
+      value: 0.5024
       objectReference: {fileID: 0}
     - target: {fileID: 7617506601850112029, guid: 606701d65fe75864cb293ea8176570f1, type: 3}
       propertyPath: m_LocalPosition.z

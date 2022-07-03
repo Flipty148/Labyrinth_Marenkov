@@ -9,8 +9,8 @@ public class CameraController : MonoBehaviour
 
     public void SetCameraBounds(float leftBound, float rightBound, float upperBound, float bottomBound)
     {
-        float vertExtent = gameObject.GetComponent<Camera>().orthographicSize - 0.5f; //Вертикальные границы камеры
-        float horExtent = gameObject.GetComponent<Camera>().aspect * vertExtent - 0.5f; //Горизонтальные границы камеры
+        float vertExtent = gameObject.GetComponent<Camera>().orthographicSize - 0.05f; //Вертикальные границы камеры
+        float horExtent = gameObject.GetComponent<Camera>().aspect * vertExtent - 0.05f; //Горизонтальные границы камеры
         
         if (Mathf.Abs(leftBound - rightBound) < 2 * horExtent)
         { //Камера не помещается в вертикальные границы
