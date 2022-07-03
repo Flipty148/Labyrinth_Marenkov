@@ -38,10 +38,12 @@ public class Cell : MonoBehaviour
 
         if (curWall != null)
         {
+            curWall.name = "Exit Wall"; //Переименовать стену выхода
             curWall.GetComponent<LineRenderer>().enabled = false; //Отключить видимость
             curWall.GetComponent<EdgeCollider2D>().isTrigger = true; //Сделать триггером
             curWall.AddComponent<ExitTrigger>(); //Добавление обработчика триггера
             curWall.GetComponent<ExitTrigger>().player = GameObject.FindGameObjectWithTag("Player"); //Передача параметра обработчику
+            curWall.AddComponent<ExitPointer>(); //Добавление указателя на выход
         }
         else
             return;
